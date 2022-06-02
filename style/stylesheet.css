@@ -13,6 +13,7 @@
 }
 
 h1{
+    display:grid;
     font-size: 2.3em;
     line-height: 1.3em;
 	margin: 15px 0;
@@ -33,6 +34,11 @@ a{
     text-decoration: none;
 }
 
+div{
+    padding: auto;
+    display: block;
+}
+
 #header{
     padding: 10px 0;
     background: var(--color-1);
@@ -43,6 +49,7 @@ a{
     position: fixed;
     margin-bottom:20px; 
     overflow:hidden;
+    z-index: 1;
 }
 
 #header .logo{
@@ -74,9 +81,31 @@ a{
 	transition:all 500ms ease;
 }
 
-header nav a:hover {
+#header nav a:hover {
 	background:#C2E7FF;
 	border-radius:50px;
+}
+
+section .container{
+    background-image: url("../images/fondo1.jpeg");
+    background-size:auto;
+    height: 600px;
+    opacity:50%;   
+    width: 100%;
+    z-index: 0;
+}
+
+#home p{
+    display:grid;
+    font-size: 1em;
+    line-height: 0.7em;
+	margin: 15px 0;
+	text-align: center;
+	font-weight: 100;
+}
+
+.information{
+    padding-top: 250px;
 }
 
 .container{
@@ -85,4 +114,5 @@ header nav a:hover {
     left:0;
     width:100%;
     height:100%;
+    float: none;
 }
