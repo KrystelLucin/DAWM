@@ -6,6 +6,8 @@
 
         <!-- Title Tag -->
         <title>Krystel Lucin &minus; Artist</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script src="https://kit.fontawesome.com/7bb22fd0ff.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <header id="header">
@@ -31,7 +33,7 @@
             <div class="container">
                 <div class="information">
                     <h1>Sketches Lucin</h1>
-                    <h2>by Krystel Lucin</h2>
+                    <h4>by Krystel Lucin</h4>
                 </div>
                 
             </div>
@@ -41,12 +43,16 @@
                 <div id="tittle-projects">
                     <h2>My draws</h2>
                 </div>
-                <div class="gridbox">
-                    <img src="./images/estaciones.jpg">
-                    <img src="./images/chicaSombrero.jpeg">
-                    <img src="./images/guitarra.jpeg">
-                    <img src="./images/bocetoChica.jpeg">
-                </div>
+                <table class="table">
+                    <tr>
+                        <td class="principal" colspan="3"><img src="./images/estaciones.jpg"></td>
+                    </tr>
+                    <tr>
+                        <td class="other"><img src="./images/chicaSombrero.jpeg"></td>
+                        <td class="other"><img src="./images/guitarra.jpeg"></td>
+                        <td class="other"><img src="./images/chico.jpeg"></td>
+                    </tr>
+                </table>
                 <div id="conociencia">
                     <div class="information">
                         <h2>Discover my other artistic projects</h2>
@@ -90,17 +96,16 @@
             <div class="container">
                 <div class="contact-me-block">
                     <div class="map">
-
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5023.468190845536!2d-79.89889009814435!3d-2.103654494186309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d12b795d5e857%3A0x88abfac5acffb211!2sParque%20Samanes!5e0!3m2!1ses!2sec!4v1655396441496!5m2!1ses!2sec" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <div class="form-area">
                         <form id="form">
                             <h2>CONTACT ME</h2>
-                            If you want to donate an idea, give me an order or even if you want to be my friend, leave me a message.
-                            <br>
+                            <p>If you want to donate an idea, give me an order or even if you want to be my friend, leave me a message.<p>
                             <div class="flex">
-                                <input type="text" name="name" placeholder="Your Name" required>
-                                <input type="email" name="email" placeholder="Your Email" required>
-                                <textarea name="message" rows="10" placeholder="Type your message here"></textarea>
+                                <input type="text" name="name" class="name" placeholder="Your Name" required>
+                                <input type="email" name="email" class="email" placeholder="Your Email" required>
+                                <textarea name="message" class="message" rows="10" placeholder="Type your message here"></textarea>
                             </div>
                             <div class="form-button">	
                                 <button type="submit" class="button">Submit</button>
@@ -108,20 +113,11 @@
                         </form>
                     </div>
                 </div>
-                <div id="datos-contacto">
-                    <div id="ubicaion">
-                        <i class="fa fa-map"></i>
-                        <p>Guayaquil, Ecuador</p>
-                    </div>
-                    <div id="my-email">
-                        <i class="fa fa-envelope"></i>
-                        <p>krystellucin@hotmail.com/p>
-                    </div>
-                    <div id="cellphone">
-                        <i class="fa fa-phone"></i>
-                        <p>+593 960088152</p>
-                    </div>
-                </div>
+                <ul id="datos-contacto">
+                    <li><i class="fa fa-map"></i>Guayaquil, Ecuador</li>
+                    <li><i class="fa fa-envelope"></i>krystellucin@hotmail.com</li>
+                    <li><i class="fa fa-phone"></i>+593 960088152</li>
+                </ul>
 
             </div>
         </section>
