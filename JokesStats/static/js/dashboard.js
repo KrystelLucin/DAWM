@@ -20,93 +20,102 @@ let jokesId = []
 let repeated = 0
 
 let vowels = [0,0,0,0,0]
+let questions = 0
 
 let t_categories = document.getElementById('total-categories')
 let t_flags = document.getElementById('total-flags')
 let t_types = document.getElementById('total-types')
 let t_jokes = document.getElementById('total-jokes')
 
-let cargarCategories = ()=>{
+let cargarCategories = async ()=>{
   url = 'https://jokeapi-v2.p.rapidapi.com/categories?format=json'
-  fetch(url, options)
-	  .then(res => res.json())
-	  .then((data) => {
-      for (let category of data.categories) {
-        categories.push(category)
-        jokesPerCat.push(0)
-      }
-      t_categories.innerHTML = categories.length
-    })
-	  .catch(err => console.error('error:' + err));
+  const response = await fetch(url,options)
+  const data = await response.json()
+
+  for (let category of data.categories) {
+    categories.push(category)
+    jokesPerCat.push(0)
+  }
+  document.getElementById("spinnerC").style.display="none"
+  t_categories.innerHTML = categories.length
+
 }
 
-let cargarFlags = ()=>{
+let cargarFlags = async ()=>{
   url = 'https://jokeapi-v2.p.rapidapi.com/flags?format=json'
-  fetch(url, options)
-	  .then(res => res.json())
-	  .then((data) => {
-      for (let flag of data.flags) {
-        flags.push(flag)
-        jokesPerFlag.push(0)
-      }
-      t_flags.innerHTML = flags.length
-    })
-	  .catch(err => console.error('error:' + err));
+  const response = await fetch(url, options)
+  const data = await response.json()
+
+  for (let flag of data.flags) {
+    flags.push(flag)
+    jokesPerFlag.push(0)
+  }
+  document.getElementById("spinnerF").style.display="none"
+  t_flags.innerHTML = flags.length
 }
 
-let cargarDatos = ()=>{
-  cargarCategories()
-  cargarFlags()
+let cargarJokes = async ()=>{
   url = 'https://jokeapi-v2.p.rapidapi.com/joke/Any?format=json&idRange=0-150';
   let jokes = 1368
   let index
   for (let i = 0; i < 50; i++) {
-    fetch(url, options)
-	    .then(res => res.json())
-	    .then((data) => {
-        let cadena
-        if (data.type == "single") {
-          cadena = data.joke
-        } else {
-          cadena = `${data.setup} ${data.delivery}`
-        }
-        for(let i = 0; i < cadena.length; i++) {
-	        if (cadena[i].toLowerCase() === "a") vowels[0]++;
-          if (cadena[i].toLowerCase() === "e") vowels[1]++;
-          if (cadena[i].toLowerCase() === "i") vowels[2]++;
-          if (cadena[i].toLowerCase() === "o") vowels[3]++;
-          if (cadena[i].toLowerCase() === "u") vowels[4]++;
-        }
+    const response = await fetch(url, options)
+    const data = await response.json()
+    let cadena
+    if (data.type == "single") {
+      cadena = data.joke
+    } else {
+      cadena = `${data.setup} ${data.delivery}`
+    }
 
-        if (jokesId.includes(data.id)) {
-          repeated++
-        } else {
-          jokesId.push(data.id)
-        }
+    if (cadena.includes('?')) {
+      questions++
+    }
 
-        index = categories.indexOf(data.category)
-        jokesPerCat[index]++
+    for(let i = 0; i < cadena.length; i++) {
+	    if (cadena[i].toLowerCase() === "a") vowels[0]++;
+      if (cadena[i].toLowerCase() === "e") vowels[1]++;
+      if (cadena[i].toLowerCase() === "i") vowels[2]++;
+      if (cadena[i].toLowerCase() === "o") vowels[3]++;
+      if (cadena[i].toLowerCase() === "u") vowels[4]++;
+    }
+    if (jokesId.includes(data.id)) {
+      repeated++
+    } else {
+      jokesId.push(data.id)
+    }
 
-        for (let flag of flags) {
-          if(data[flag]){
-            index = flags.indexOf(flag)
-            jokesPerFlag[index]++
-          }
-        }
+    index = categories.indexOf(data.category)
+    jokesPerCat[index]++
 
-        if(!types.includes(data.type)){
-          types.push(data.type)
-          jokesPerType.push(1)
-        } else {
-          index = types.indexOf(data.type)
-          jokesPerType[index]++
-        }     
-        t_jokes.innerHTML = jokes
-        t_types.innerHTML = types.length
-      })
-	    .catch(err => console.error('error:' + err));
-    cargarLineChart()
-  }
+    for (let flag of flags) {
+      if(data[flag]){
+        index = flags.indexOf(flag)
+        jokesPerFlag[index]++
+      }
+    }
+
+    if(!types.includes(data.type)){
+      types.push(data.type)
+      jokesPerType.push(1)
+    } else {
+      index = types.indexOf(data.type)
+      jokesPerType[index]++
+    }     
+  }   
+  document.getElementById("spinnerJ").style.display="none"
+  document.getElementById("spinnerT").style.display="none"
+  document.getElementById("spinnerLine").style.display="none"
+  document.getElementById("spinnerBar").style.display="none"
+  document.getElementById("spinnerDoughnut").style.display="none"
+  document.getElementById("spinnerPie").style.display="none"
+  t_jokes.innerHTML = jokes
+  t_types.innerHTML = types.length
+  cargarLineChart()
+  cargarBarChar(-1,"")
+  cargarDoughnut()
+  cargarPie()
+  
 }
 
 let cargarLineChart = () => {
@@ -247,10 +256,38 @@ let cargarDoughnut = () => {
   });
 }
 
+let cargarPie = () => {
+  document.getElementById('question').innerHTML = questions
+  document.getElementById('no-question').innerHTML = 50-questions
+  // Pie chart
+  new Chart(document.getElementById("chartjs-pie"), {
+    type: "pie",
+    data: {
+      labels: ["Questions", "No Questions"],
+      datasets: [{
+        data: [questions, 50-questions],
+        backgroundColor: [
+          window.theme.primary,
+          window.theme.warning,
+          window.theme.danger,
+          "#dee2e6"
+        ],
+        borderColor: "transparent"
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      }
+    }
+  });
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
-    cargarDatos()
-    cargarBarChar(1,"Category")
-    cargarDoughnut()
+  cargarJokes()
+  cargarCategories()
+  cargarFlags()
 })
 
 document.querySelector('select').addEventListener('change', (event)=>{
