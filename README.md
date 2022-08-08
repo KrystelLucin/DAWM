@@ -1,2 +1,0 @@
-# DAWM
-By Krystel Lucin
